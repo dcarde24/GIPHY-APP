@@ -16,17 +16,17 @@ $(document).ready(function() {
 
         for (var i = 0; i < arrayUse.length; i++){
 
-            var a = $("<button>")
-            a.addclass(addclass);
-            a.attr("data-type", arrayUse[i]);
-            a.text(arrayUse[i]);
+            let p = $("<button>")
+            $("p").addClass(addClass);
+            $("p").attr("data-type", arrayUse[i]);
+            $("p").text(arrayUse[i]);
 
-            $(addButton).append(a);
+            $(addButton).append(p);
 
         }
     }
 //Create a function call to giphy for gif search
-    $(document.onabort("click", ".gifButtons", function() {
+    $(document).on("click", ".gifButtons", function() {
 
         $("#newGifs").empty();
 
@@ -52,7 +52,7 @@ $(document).ready(function() {
                 var p = $("<p>").text("Rating: " + rating);
 
                 var animated = results[i].images.fixed_height.url;
-                var still = results[i].images.fixed_height.url;
+                var still = results[i].images.fixed_height_still.url;
 
                 var gitImage = $("<img>");
                 gitImage.attr("src", still);
@@ -60,8 +60,41 @@ $(document).ready(function() {
                 gitImage.attr("data-animate", animated);
                 gitImage.attr("data-state", "still");
                 gitImage.addClass("git-Image");
-            }
-        })
 
-    }))
+                topDiv.append(p);
+                topDiv.append(gitImage);
+
+                $("#newGifs").append(topDiv);
+            }
+        });
+
+    });
+
+
+   $(document).on("click", ".git-Image", function() {
+       var state = $(this).attr("data-state");
+
+       if (state === "still"){
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+       }
+       else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");  
+       }
+   }); 
+
+   $("#add-gif").on("click", function(event) {
+       event.preventDefault();
+       var oneGif = $("input").eq(0).val();
+
+       if(oneGif.length > 2) {
+           topics.push(oneGif);
+       }
+
+       buttons(topics, "gif-button", "#gif-buttons");
+   });
+   buttons(topics, "gif-button", "#gif-buttons");
+
 })
+
