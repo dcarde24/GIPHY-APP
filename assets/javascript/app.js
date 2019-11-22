@@ -8,6 +8,7 @@
 
 $(document).ready(function() {
 //added array
+    console.log("jquery loaded")
     var topics = ["Cars", "Avengers", "Hammer", "Subwoofer", "Indigenous"];
 
 //create function for adding buttons and then appending them to an array
@@ -16,12 +17,12 @@ $(document).ready(function() {
 
         for (var i = 0; i < arrayUse.length; i++){
 
-            let p = $("<button>")
-            $("p").addClass(addClass);
-            $("p").attr("data-type", arrayUse[i]);
-            $("p").text(arrayUse[i]);
+            let d = $("<button>");
+            d.addClass(addClass);
+            d.attr("data-type", arrayUse[i]);
+            d.text(arrayUse[i]);
 
-            $(addButton).append(p);
+            $(addButton).append(d);
 
         }
     }
@@ -34,25 +35,25 @@ $(document).ready(function() {
         $(this).addClass("active");
 
         var type = $(this).attr("data-type");
-        var queryUrl = "http://api.giphy.com/v1/gifs/search?q=" + type + "&api_key=KA4jqDVANEZo1GtpOp0jo5sY1JVUKcmj";
+        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + type + "&api_key=KA4jqDVANEZo1GtpOp0jo5sY1JVUKcmj";
 
         $.ajax({
-            url:queryUrl,
+            url:queryURL,
             method: "GET"
         })
 
         .then(function(response) {
             var result = response.data;
-
-            for (var i =0; i < results.length; i++) {
+            console.log(result);
+            for (var i = 0; i < result.length; i++) {
                 var topDiv = $("<div class=\"topic\">");
 
                 var rating = result[i].rating;
 
                 var p = $("<p>").text("Rating: " + rating);
 
-                var animated = results[i].images.fixed_height.url;
-                var still = results[i].images.fixed_height_still.url;
+                var animated = result[i].images.fixed_height.url;
+                var still = result[i].images.fixed_height_still.url;
 
                 var gitImage = $("<img>");
                 gitImage.attr("src", still);
@@ -84,7 +85,7 @@ $(document).ready(function() {
        }
    }); 
 
-   $("#add-gif").on("click", function(event) {
+   $("#gifAdd").on("click", function(event) {
        event.preventDefault();
        var oneGif = $("input").eq(0).val();
 
@@ -92,9 +93,9 @@ $(document).ready(function() {
            topics.push(oneGif);
        }
 
-       buttons(topics, "gif-button", "#gif-buttons");
+       buttons(topics, "gif-button", ".gifButtons");
    });
-   buttons(topics, "gif-button", "#gif-buttons");
+   buttons(topics, "gif-button", ".gifButtons");
 
 })
 
